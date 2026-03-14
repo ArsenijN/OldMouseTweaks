@@ -1,38 +1,35 @@
 {
-	"schemaVersion": 1,
-	"id": "old-mouse-tweaks",
-	"version": "${version}",
-	"name": "Old Mouse Tweaks",
-	"description": "This is an example description! Tell everyone what your mod is about!",
-	"authors": [
-		"Me!"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/old-mouse-tweaks/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"com.arsenius_gen.OldMouseTweaks"
-		],
-		"client": [
-			"com.arsenius_gen.OldMouseTweaksClient"
-		]
-	},
-	"mixins": [
-		"old-mouse-tweaks.mixins.json",
-		{
-			"config": "old-mouse-tweaks.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.18.4",
-		"minecraft": "~1.20.1",
-		"java": ">=17",
-		"fabric-api": "*"
-	}
+  "schemaVersion": 1,
+  "id": "old-mouse-tweaks",
+  "version": "${version}",
+  "name": "Old Mouse Tweaks",
+  "description": "Restores different QoL features from issue page on Mouse Tweaks and implementations in More Mouse Tweaks. ~~ Ctrl+LMB from older Mouse Tweaks versions: moves all matching items between inventory and container.",
+  "authors": [
+    "ArsenijN"
+  ],
+  "contact": {
+    "sources": "https://github.com/ArsenijN/OldMouseTweaks"
+  },
+  "license": "MIT",
+  "icon": "assets/old-mouse-tweaks/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "com.arsenius_gen.OldMouseTweaks"
+    ],
+    "client": [
+      "com.arsenius_gen.OldMouseTweaksClient"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "old-mouse-tweaks.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "~1.20.1",
+    "java": ">=17"
+  }
 }
