@@ -1,5 +1,7 @@
 package com.arsenius_gen.mixin.client;
 
+import com.arsenius_gen.config.OldMouseTweaksConfig;
+
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
@@ -64,20 +66,30 @@ public abstract class CtrlClickMixin<T extends AbstractContainerMenu> {
         for (Slot slot : allSlots) {
             if (!slot.hasItem()) continue;
 
-             boolean slotInContainer = (slot.index < playerSideStart);
+            boolean slotInContainer = (slot.index < playerSideStart);
             boolean slotInHotbar    = (slot.index >= hotbarStart);
             boolean slotInInvRows   = !slotInContainer && !slotInHotbar;
 
             boolean include;
             if (moveAll) {
-                // move everything from the opposite side
                 if (clickedInContainer) {
                     include = slotInContainer;
                 } else {
-                    include = !slotInContainer;
+                    boolean combined = OldMouseTweaksConfig.get().moveAllMode
+                                        == OldMouseTweaksConfig.MoveAllMode.COMBINED;
+                    if (combined) {
+                        include = !slotInContainer;
+                    } else {
+                        // CONTEXT_ONLY: respect zone boundaries on all screens
+                        if (clickedInHotbar) {
+                            include = slotInHotbar;
+                        } else {
+                            include = slotInInvRows;
+                        }
+                    }
                 }
             } else {
-                // existing per-item logic
+                // per-item logic (unchanged)
                 if (clickedInContainer) {
                     include = slotInContainer;
                 } else if (isInventoryScreen) {
@@ -89,9 +101,9 @@ public abstract class CtrlClickMixin<T extends AbstractContainerMenu> {
                 } else {
                     include = !slotInContainer;
                 }
-                
-                if (include) slotIndices.add(slot.index);
             }
+
+            if (include) slotIndices.add(slot.index);
         }
 
         com.arsenius_gen.OldMouseTweaks.LOGGER.info("[OMT] will move slots: {}", slotIndices);
@@ -103,7 +115,7 @@ public abstract class CtrlClickMixin<T extends AbstractContainerMenu> {
         for (int idx : slotIndices) {
             Slot slot = allSlots.get(idx);
             if (!slot.hasItem()) continue;
-            if (slot.getItem().getItem() != targetItem) continue;
+            if (!moveAll && slot.getItem().getItem() != targetItem) continue; // skip filter for moveAll
             invoker.invokeSlotClicked(slot, slot.index, 0, ClickType.QUICK_MOVE);
         }
 
