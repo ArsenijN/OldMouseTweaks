@@ -1,8 +1,8 @@
-# Old Mouse Tweaks - `V0.0.4`
+# Old Mouse Tweaks - `V1.0.0`
 
-Bring the wanted QoL features for the Mouse Tweaks (link) mod!
+Bring the wanted QoL features as addon for the [Mouse Tweaks](https://modrinth.com/mod/mouse-tweaks) mod!
 
-(acts as backport on older version(s) of Minecraft for some of the features from More Mouse Tweaks (link))
+(acts kinda as backport of [More Mouse Tweaks](https://modrinth.com/mod/moremousetweaks) for older version(s) of Minecraft)
 
 ---
 
@@ -10,7 +10,7 @@ Bring the wanted QoL features for the Mouse Tweaks (link) mod!
 
 > Ctrl+LMB: move the matching-item stacks between inventories (chest <--> inventory, hotbar <--> inventory)
 
-> Ctrl+LMB: move all items when clicked on empty slot
+> Ctrl+LMB: move all items when clicked on empty slot (context-respectfull)
 
 > Configuration screen with `Mod Menu`
 
