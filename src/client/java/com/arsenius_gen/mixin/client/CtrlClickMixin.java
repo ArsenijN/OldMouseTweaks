@@ -34,12 +34,20 @@ public abstract class CtrlClickMixin<T extends AbstractContainerMenu> {
         List<Slot> allSlots = menu.slots;
         int total = allSlots.size();
 
-        int playerSideStart = Math.max(0, total - 36);
-        int hotbarStart     = playerSideStart + 27;
+        int playerSideStart;
+        int hotbarStart;
+
+        boolean isInventoryScreen = (menu instanceof InventoryMenu);
+        if (isInventoryScreen) {
+            playerSideStart = 9;  // after armor(4) + offhand(1) + crafting(4)
+            hotbarStart = 36;
+        } else {
+            playerSideStart = Math.max(0, total - 36);
+            hotbarStart = playerSideStart + 27;
+        }
 
         boolean clickedInContainer = (hoveredSlot.index < playerSideStart);
         boolean clickedInHotbar    = (hoveredSlot.index >= hotbarStart);
-        boolean isInventoryScreen  = (menu instanceof InventoryMenu);
 
         // Debug: print key values so we can verify detection in the log
         com.arsenius_gen.OldMouseTweaks.LOGGER.info(

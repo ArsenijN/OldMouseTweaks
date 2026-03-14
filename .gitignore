@@ -40,4 +40,4 @@ replay_*.log
 *.jfr
 
 # Incremental build counter (local per-machine)
-build_counter.txt
+# build_counter.txt
