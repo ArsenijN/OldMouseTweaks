@@ -27,7 +27,7 @@ public abstract class CtrlClickMixin<T extends AbstractContainerMenu> {
                                                int button, CallbackInfoReturnable<Boolean> cir) {
         if (button != GLFW.GLFW_MOUSE_BUTTON_LEFT) return;
         if (!isCtrlHeld()) return;
-        if (hoveredSlot == null || !hoveredSlot.hasItem()) return;
+        if (hoveredSlot == null) return; // remove the hasItem() check here
 
         Item targetItem = hoveredSlot.getItem().getItem();
 
@@ -58,29 +58,40 @@ public abstract class CtrlClickMixin<T extends AbstractContainerMenu> {
             menu.getClass().getName()
         );
 
+        boolean moveAll = !hoveredSlot.hasItem(); // clicked empty slot = move everything
+
         List<Integer> slotIndices = new ArrayList<>();
         for (Slot slot : allSlots) {
             if (!slot.hasItem()) continue;
-            if (slot.getItem().getItem() != targetItem) continue;
 
-            boolean slotInContainer = (slot.index < playerSideStart);
+             boolean slotInContainer = (slot.index < playerSideStart);
             boolean slotInHotbar    = (slot.index >= hotbarStart);
             boolean slotInInvRows   = !slotInContainer && !slotInHotbar;
 
             boolean include;
-            if (clickedInContainer) {
-                include = slotInContainer;
-            } else if (isInventoryScreen) {
-                if (clickedInHotbar) {
-                    include = slotInHotbar;
+            if (moveAll) {
+                // move everything from the opposite side
+                if (clickedInContainer) {
+                    include = slotInContainer;
                 } else {
-                    include = slotInInvRows;
+                    include = !slotInContainer;
                 }
             } else {
-                include = !slotInContainer;
+                // existing per-item logic
+                if (clickedInContainer) {
+                    include = slotInContainer;
+                } else if (isInventoryScreen) {
+                    if (clickedInHotbar) {
+                        include = slotInHotbar;
+                    } else {
+                        include = slotInInvRows;
+                    }
+                } else {
+                    include = !slotInContainer;
+                }
+                
+                if (include) slotIndices.add(slot.index);
             }
-
-            if (include) slotIndices.add(slot.index);
         }
 
         com.arsenius_gen.OldMouseTweaks.LOGGER.info("[OMT] will move slots: {}", slotIndices);

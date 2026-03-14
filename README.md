@@ -1,4 +1,4 @@
-# Old Mouse Tweaks - `V0.0.2`
+# Old Mouse Tweaks - `V0.0.3`
 
 Bring the wanted QoL features for the Mouse Tweaks (link) mod!
 
@@ -11,3 +11,5 @@ Bring the wanted QoL features for the Mouse Tweaks (link) mod!
 ## Implemented features
 
 > Ctrl+LMB: move the matching-item stacks between inventories (chest <--> inventory, hotbar <--> inventory)
+
+> Ctrl+LMB: move all items when clicked on empty slot
